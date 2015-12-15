@@ -1,13 +1,15 @@
 var http = require('http');
 var Primus = require('primus');
 var PrimusRedisRooms = require('../../');
+var redis = require('redis');
 
 module.exports = function getPrimus(port) {
   var server = http.createServer();
   var primus = new Primus(server, {
-    redis: {
-      host: 'localhost',
-      port: 6379
+    redis : {
+      getClient : function () {
+        return redis.createClient();
+      }
     },
     transformer: 'websockets'
   });
