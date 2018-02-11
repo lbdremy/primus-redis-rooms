@@ -1,7 +1,7 @@
 var http = require('http');
 var Primus = require('primus');
 var PrimusRedisRooms = require('../../');
-var redis = require('redis');
+var redis = require('ioredis');
 
 module.exports = function getPrimus(port) {
   var server = http.createServer();
@@ -13,7 +13,7 @@ module.exports = function getPrimus(port) {
     },
     transformer: 'websockets'
   });
-  primus.use('redis', PrimusRedisRooms);
+  primus.plugin('redis', PrimusRedisRooms);
 
   primus.port = port;
   primus.server = server;
